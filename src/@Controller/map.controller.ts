@@ -17,4 +17,16 @@ export class MapController {
       return maps as any;
     }
   }
+
+  @Get('getLocationMarkers')
+  public async getLocationMarkers(): Promise<JSON | object> {
+    const location: Array<JSON | object | string> =
+      await this.mapService.fetchLocationMarkers();
+
+    if (typeof location === 'string') {
+      throw new NotFoundException('Lokációpontok lekérése sikertelen!');
+    } else {
+      return location as any;
+    }
+  }
 }
