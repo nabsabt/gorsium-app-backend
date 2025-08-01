@@ -8,11 +8,22 @@ export class MapService {
   constructor(@InjectConnection() private mongo: Connection) {}
 
   private geojsonMapsCollection = this.mongo.collection('geojson');
+  private geojsonZonesCollection = this.mongo.collection('zones');
   private locationMarkersCollection = this.mongo.collection('locationMarkers');
   private mongoose = new Mongoose();
 
   public async fetchGeoJSONMaps(): Promise<GEOJSONMapData | any> {
     const result = await this.geojsonMapsCollection.find().toArray();
+
+    if (result) {
+      return result;
+    } else {
+      return 'not found';
+    }
+  }
+
+  public async fetchGeoJSONZones(): Promise<GEOJSONMapData | any> {
+    const result = await this.geojsonZonesCollection.find().toArray();
 
     if (result) {
       return result;

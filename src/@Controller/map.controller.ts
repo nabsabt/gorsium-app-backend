@@ -18,6 +18,18 @@ export class MapController {
     }
   }
 
+  @Get('getZoneLayers')
+  public async getZoneLayers(): Promise<Array<GEOJSONMapData>> {
+    const maps: Array<GEOJSONMapData | string> =
+      await this.mapService.fetchGeoJSONZones();
+
+    if (typeof maps === 'string') {
+      throw new NotFoundException('GeoJSON térképek lekérése sikertelen!');
+    } else {
+      return maps as any;
+    }
+  }
+
   @Get('getLocationMarkers')
   public async getLocationMarkers(): Promise<JSON | object> {
     const location: Array<JSON | object | string> =
